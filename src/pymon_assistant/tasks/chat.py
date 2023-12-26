@@ -10,6 +10,8 @@ from datetime import datetime
 
 import google.generativeai as genai
 
+from src.pymon_assistant.utils import check_query_validity, check_history_validity
+
 # load the dotenv file
 dotenv.load_dotenv()
 
@@ -119,18 +121,27 @@ def chat(instruction, history=[]):
         the chatbot response
     list
         the chat history (list of dict)
+
+    Raises
+    ------
+    ValueError
+        if the history or instruction is invalid
     """
     # get the llm input
     pymon_input = prompt_input(instruction, context=history)
 
     # init conversation
-    convo = gemini.start_chat(history=history)
-    response = convo.send_message(pymon_input)
+    if check_history_validity(history) and check_query_validity(instruction):
+        convo = gemini.start_chat(history=history)
+        response = convo.send_message(pymon_input)
 
-    # get the response
-    chat_response = response.text
+        # get the response
+        chat_response = response.text
 
-    # get the correct conversation format
-    messages = manage_history(history, convo)
+        # get the correct conversation format
+        messages = manage_history(history, convo)
+
+    else:
+        raise ValueError("Invalid history or instruction.")
 
     return chat_response, messages
