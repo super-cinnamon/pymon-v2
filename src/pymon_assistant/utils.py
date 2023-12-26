@@ -21,6 +21,8 @@ def check_query_validity(query):
     """
     if isinstance(query, str) and query:
         return True
+    else:
+        return False
 
 
 def check_history_validity(history):

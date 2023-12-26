@@ -66,7 +66,7 @@ def prompt_input(query):
     pymon_input += get_context(query)
 
     # add the user query
-    pymon_input += "\n\n## User querstion:\n"
+    pymon_input += "\n\n## User question:\n"
     pymon_input += query
 
     return pymon_input
