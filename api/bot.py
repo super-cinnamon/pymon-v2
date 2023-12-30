@@ -10,6 +10,7 @@ from api.commands.triggers import (
     qna_trigger,
     qna_action,
     mention_trigger,
+    reply_trigger,
 )
 
 
@@ -36,11 +37,16 @@ async def on_message(message):
         return
 
     # triggers the LLM QnA response
-    if qna_trigger(message):
+    elif response := await reply_trigger(message, DISCORD_CLIENT):
+        history = response[1]
+        pymon_response = qna_action(message, DISCORD_CLIENT, history=history)
+        await message.reply(pymon_response)
+
+    elif qna_trigger(message):
         pymon_response = qna_action(message)
-        await message.channel.send(pymon_response)
+        await message.reply(pymon_response)
 
     # automatically replies with LLM if bot is being replied to or tagged
-    if mention_trigger(DISCORD_CLIENT, message):
+    elif mention_trigger(DISCORD_CLIENT, message):
         pymon_response = qna_action(message, DISCORD_CLIENT)
-        await message.channel.send(pymon_response)
+        await message.reply(pymon_response)
