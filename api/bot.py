@@ -47,6 +47,8 @@ async def on_message(message):
         await message.reply(pymon_response)
 
     # automatically replies with LLM if bot is being replied to or tagged
-    elif mention_trigger(DISCORD_CLIENT, message):
-        pymon_response = qna_action(message, DISCORD_CLIENT)
-        await message.reply(pymon_response)
+    elif mention_trigger(DISCORD_CLIENT, message) :
+        is_reply = await reply_trigger(message, DISCORD_CLIENT)
+        if not is_reply:
+            pymon_response = qna_action(message, DISCORD_CLIENT)
+            await message.reply(pymon_response)

@@ -16,5 +16,8 @@ async def fetch_message(message):
 
 def clean_message(text):
     search_results = re.search(r"\<\@\d+\>", text)
-    cleaned_text = text[search_results.end():]
-    return cleaned_text
+    if search_results:
+        cleaned_text = text[search_results.end():]
+        return cleaned_text
+    else:
+        return text
