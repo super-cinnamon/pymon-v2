@@ -1,0 +1,3 @@
+discord
+google-generativeai
+duckduckgo-search
