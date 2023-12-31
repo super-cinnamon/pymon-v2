@@ -40,11 +40,11 @@ def check_history_validity(history):
     """
     if isinstance(history, list):
         for item in history:
-            if not isinstance(item, dict) or 'role' not in item or 'text' not in item:
+            if not isinstance(item, dict) or 'role' not in item or 'parts' not in item:
                 return False
 
-            # the role must be either 'user' or 'system'
-            elif item['role'] not in ['user', 'system']:
+            # the role must be either 'user' or 'model'
+            elif item['role'] not in ['user', 'model']:
                 return False
 
         return True
