@@ -3,3 +3,4 @@ google-generativeai
 duckduckgo-search
 python-dotenv
 urllib3==1.26.15
+mwparserfromhell==0.6.6
