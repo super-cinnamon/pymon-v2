@@ -1,11 +1,12 @@
 from src.pymon_assistant.tasks.chat import chat
 from api.utils import (
-    format_history, 
-    fetch_message, 
+    format_history,
+    fetch_message,
     clean_message,
+    get_raw_text,
 )
 
-QUESTION_STARTER = "tell me pymon, "
+QUESTION_STARTER = "tell me pymon"
 
 
 def get_llm_response(message, history=[]):
@@ -28,7 +29,9 @@ def qna_trigger(message):
     bool:
         True if the message is a question to Pymon, False otherwise
     """
-    if message.content.startswith(QUESTION_STARTER):
+    # preprocess the message
+    user_message = get_raw_text(message.content)
+    if user_message.startswith(QUESTION_STARTER):
         return True
 
 
@@ -46,10 +49,11 @@ def qna_action(message, client=None, history=[]):
     str:
         Pymon LLM response through discord API
     """
-    query = message.content.replace(QUESTION_STARTER, '')
     if client:
         query = message.content.replace(client.user.mention, '')
-
+    else:
+        # maybe add query preprocessing using gemini to remove "tell me pymon" in a smarter way
+        query = message.content
     # get the LLM response
     response = get_llm_response(query, history=history)
     return response
