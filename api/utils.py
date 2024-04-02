@@ -21,3 +21,13 @@ def clean_message(text):
         return cleaned_text
     else:
         return text
+
+
+def get_raw_text(text):
+    # turn to lowercase, remove punctuation, remove extra spaces and trailing spaces
+    text = text.lower()
+    text = re.sub(r'[^\w\s]', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
+
+    return text
