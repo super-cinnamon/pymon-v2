@@ -11,6 +11,7 @@ from datetime import datetime
 import google.generativeai as genai
 
 from src.pymon_assistant.utils import check_query_validity, check_history_validity
+from src.pymon_assistant.tasks.web_search import get_context
 
 # load the dotenv file
 dotenv.load_dotenv()
@@ -39,7 +40,7 @@ gemini = genai.GenerativeModel(model_name=llm_config["model_name"],
                                safety_settings=safety_config)
 
 
-def prompt_input(query, context=[]):
+def prompt_input(query):
     """
     gets the LLM input with the prompt and context from web search
     and compiles it into a single string
@@ -62,12 +63,10 @@ def prompt_input(query, context=[]):
     pymon_input += PROMPT.format(datetime.now())
 
     # add the context/search results
-    pymon_input += "\n\n## Search results:\n"
-    if not context:
-        pymon_input += "No search results available.\n"
+    pymon_input += get_context(query)
 
     # add the user query
-    pymon_input += "\n\n## User querstion:\n"
+    pymon_input += "\n\n## User question:\n"
     pymon_input += query
 
     return pymon_input

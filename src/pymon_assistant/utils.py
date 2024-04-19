@@ -21,6 +21,8 @@ def check_query_validity(query):
     """
     if isinstance(query, str) and query:
         return True
+    else:
+        return False
 
 
 def check_history_validity(history):
@@ -48,3 +50,26 @@ def check_history_validity(history):
                 return False
 
         return True
+
+
+def check_context_validity(context):
+    """
+    checks if the context is valid for the pymon assistant
+    the context must be a list of strings, not empty
+
+    Parameters
+    ----------
+    context: list
+        the list of search results from the web search
+
+    Returns
+    -------
+    bool
+        True if the context is valid, False otherwise
+    """
+    if isinstance(context, list) and context:
+        # title href and body
+        if all(isinstance(result, dict) for result in context):
+            return True
+    else:
+        return False
