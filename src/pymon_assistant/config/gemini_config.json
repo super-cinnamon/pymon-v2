@@ -3,7 +3,7 @@
         "model_name": "gemini-pro",
         "generation_config": {
             "temperature": 0.7,
-            "max_output_tokens": 2048
+            "max_output_tokens": 1536
         }
     },
 
@@ -24,6 +24,14 @@
             "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
             "threshold": "BLOCK_NONE"
           }
-    ]
+    ],
+
+    "qdrant_config": {
+        "collection_name": "genshindb_test",
+        "vector_name": "page_content",
+        "limit": 6,
+        "threshold": 0.7,
+        "embeddings_model": "intfloat/e5-large-v2"
+    }
 
 }

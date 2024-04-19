@@ -11,7 +11,9 @@ from datetime import datetime
 import google.generativeai as genai
 
 from src.pymon_assistant.utils import check_query_validity, check_history_validity
-from src.pymon_assistant.tasks.web_search import get_context
+from src.pymon_assistant.tasks.web_search import get_context as web_context
+from src.pymon_assistant.tasks.vdb_search import get_context as vdb_context
+
 
 # load the dotenv file
 dotenv.load_dotenv()
@@ -40,7 +42,7 @@ gemini = genai.GenerativeModel(model_name=llm_config["model_name"],
                                safety_settings=safety_config)
 
 
-def prompt_input(query):
+def prompt_input(query, search_base="web"):
     """
     gets the LLM input with the prompt and context from web search
     and compiles it into a single string
@@ -63,7 +65,10 @@ def prompt_input(query):
     pymon_input += PROMPT.format(datetime.now())
 
     # add the context/search results
-    pymon_input += get_context(query)
+    if search_base == "web":
+        pymon_input += web_context(query)
+    elif search_base == "vdb":
+        pymon_input += vdb_context(query)
 
     # add the user query
     pymon_input += "\n\n## User question:\n"
@@ -102,7 +107,7 @@ def manage_history(history, convo, max_chat_size=5):
     return gemini_history
 
 
-def chat(instruction, history=[]):
+def chat(instruction, history=[], search_base="vdb"):
     """
     the main chatbot function that processes the user input
     and returns the chatbot response and history.
@@ -127,7 +132,14 @@ def chat(instruction, history=[]):
         if the history or instruction is invalid
     """
     # get the llm input
-    pymon_input = prompt_input(instruction, context=history)
+    try:
+        pymon_input = prompt_input(instruction, search_base=search_base)
+    except Exception as e:
+        print("switching to web search because of the following exception:")
+        print(e)
+        pymon_input = prompt_input(instruction, search_base="web")
+    
+    print(pymon_input)
 
     # init conversation
     if check_history_validity(history) and check_query_validity(instruction):
