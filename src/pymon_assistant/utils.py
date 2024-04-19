@@ -52,7 +52,7 @@ def check_history_validity(history):
         return True
 
 
-def check_context_validity(context):
+def check_context_validity(context, search_type="web"):
     """
     checks if the context is valid for the pymon assistant
     the context must be a list of strings, not empty
@@ -69,7 +69,11 @@ def check_context_validity(context):
     """
     if isinstance(context, list) and context:
         # title href and body
-        if all(isinstance(result, dict) for result in context):
-            return True
+        if search_type == "web":
+            if all(isinstance(result, dict) for result in context):
+                return True
+        elif search_type == "vdb":
+            if all(isinstance(result, str) for result in context):
+                return True
     else:
         return False
