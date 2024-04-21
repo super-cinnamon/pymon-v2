@@ -138,8 +138,6 @@ def chat(instruction, history=[], search_base="vdb"):
         print("switching to web search because of the following exception:")
         print(e)
         pymon_input = prompt_input(instruction, search_base="web")
-    
-    print(pymon_input)
 
     # init conversation
     if check_history_validity(history) and check_query_validity(instruction):
