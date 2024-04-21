@@ -5,6 +5,7 @@ necessary processing for the data
 import os
 import dotenv
 import discord
+import logging
 
 from api.commands.triggers import (
     qna_trigger,
@@ -27,6 +28,7 @@ DISCORD_CLIENT = discord.Client(intents=intents)
 
 @DISCORD_CLIENT.event
 async def on_ready():
+    logging.info(f'We have logged in as {DISCORD_CLIENT.user}')
     print(f'We have logged in as {DISCORD_CLIENT.user}')
 
 
