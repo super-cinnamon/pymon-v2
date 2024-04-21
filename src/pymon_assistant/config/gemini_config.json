@@ -3,7 +3,7 @@
         "model_name": "gemini-pro",
         "generation_config": {
             "temperature": 0.7,
-            "max_output_tokens": 1536
+            "max_output_tokens": 1024
         }
     },
 
@@ -27,11 +27,11 @@
     ],
 
     "qdrant_config": {
-        "collection_name": "genshindb_test",
+        "collection_name": "genshin_lite",
         "vector_name": "page_content",
         "limit": 6,
-        "threshold": 0.7,
-        "embeddings_model": "intfloat/e5-large-v2"
+        "threshold": 0.0,
+        "embeddings_model": "sentence-transformers/all-MiniLM-L6-v2"
     }
 
 }
