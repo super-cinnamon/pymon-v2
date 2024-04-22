@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 import dotenv
 from qdrant_client import QdrantClient, models
@@ -20,6 +21,7 @@ QDRANT_CONFIG = config_dict["qdrant_config"]
 QDRANT_CLIENT = QdrantClient(url=QDRANT_URL, api_key=QDRANT_TOKEN)
 
 EMBEDDINGS_MODEL = SentenceTransformer(QDRANT_CONFIG["embeddings_model"])
+logging.info("Qdrant client and embeddings model loaded successfully.")
 
 
 def generate_embeddings(text):
