@@ -6,6 +6,11 @@ on:
   push:
     branches:
       - master
+env:
+  DISCORD_TOKEN: ${{ vars.DISCORD_TOKEN }}
+  QDRANT_URL: ${{ vars.QDRANT_URL }}
+  QDRANT_TOKEN: ${{ vars.QDRANT_TOKEN }}
+  GEMINI_API_KEY: ${{ vars.GEMINI_API_KEY }}
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
