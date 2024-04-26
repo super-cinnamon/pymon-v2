@@ -1,0 +1,17 @@
+version: "3.5"
+services:
+  pymon:
+    container_name: "google_pymon"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - develop_network
+
+networks:
+  develop_network:
+    name: develop_network
+    driver: bridge

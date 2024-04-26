@@ -1,0 +1,6 @@
+*
+!src/*
+!api/*
+!run.py
+!requirements.txt
+!entrypoint.sh
