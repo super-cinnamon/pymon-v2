@@ -21,6 +21,8 @@ def search_DDG(query):
     list
         the list of search results from the search engine
     """
+
+    query = query + " in Genshin Impact"
     with DDGS() as ddgs:
         results = [r for r in ddgs.text(query, max_results=10)]
         return results
@@ -41,7 +43,7 @@ def rag_input(search_results):
         the compiled input for the LLM
     """
 
-    rag_string = "\n\n## Search results:\n"
+    rag_string = "\n\n## Web search results:\n"
 
     # check context shape validity
     if not check_context_validity(search_results):

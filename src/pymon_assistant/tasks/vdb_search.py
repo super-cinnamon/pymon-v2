@@ -71,7 +71,7 @@ def rag_input(context):
         the compiled input for the LLM
     """
 
-    rag_string = "\n\n## Search results:\n"
+    rag_string = "\n\n## Database search results:\n"
 
     # check context shape validity
     if not check_context_validity(context, search_type="vdb"):

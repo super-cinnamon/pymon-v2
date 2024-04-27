@@ -42,7 +42,7 @@ gemini = genai.GenerativeModel(model_name=llm_config["model_name"],
                                safety_settings=safety_config)
 
 
-def prompt_input(query, search_base="web"):
+def prompt_input(query, search_base="both"):
     """
     gets the LLM input with the prompt and context from web search
     and compiles it into a single string
@@ -68,6 +68,9 @@ def prompt_input(query, search_base="web"):
     if search_base == "web":
         pymon_input += web_context(query)
     elif search_base == "vdb":
+        pymon_input += vdb_context(query)
+    elif search_base == "both":
+        pymon_input += web_context(query)
         pymon_input += vdb_context(query)
 
     # add the user query
@@ -107,7 +110,7 @@ def manage_history(history, convo, max_chat_size=5):
     return gemini_history
 
 
-def chat(instruction, history=[], search_base="vdb"):
+def chat(instruction, history=[], search_base="both"):
     """
     the main chatbot function that processes the user input
     and returns the chatbot response and history.
