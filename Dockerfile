@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-RUN pip install --upgarde -r requirements.txt && \
+RUN pip install --upgrade -r requirements.txt && \
     rm -rf /root/.cache/pip
 
 COPY . .
