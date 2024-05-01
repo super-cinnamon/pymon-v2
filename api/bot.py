@@ -42,15 +42,30 @@ async def on_message(message):
     elif response := await reply_trigger(message, DISCORD_CLIENT):
         history = response[1]
         pymon_response = qna_action(message, DISCORD_CLIENT, history=history)
-        await message.reply(pymon_response)
+        if len(pymon_response) > 2000:
+            # split into multiple messages
+            for i in range(0, len(pymon_response), 2000):
+                await message.reply(pymon_response[i:i + 2000])
+        else:
+            await message.reply(pymon_response)
 
     elif qna_trigger(message):
         pymon_response = qna_action(message)
-        await message.reply(pymon_response)
+        if len(pymon_response) > 2000:
+            # split into multiple messages
+            for i in range(0, len(pymon_response), 2000):
+                await message.reply(pymon_response[i:i + 2000])
+        else: 
+            await message.reply(pymon_response)
 
     # automatically replies with LLM if bot is being replied to or tagged
     elif mention_trigger(DISCORD_CLIENT, message) :
         is_reply = await reply_trigger(message, DISCORD_CLIENT)
         if not is_reply:
             pymon_response = qna_action(message, DISCORD_CLIENT)
-            await message.reply(pymon_response)
+            if len(pymon_response) > 2000:
+                # split into multiple messages
+                for i in range(0, len(pymon_response), 2000):
+                    await message.reply(pymon_response[i:i + 2000])
+            else:
+                await message.reply(pymon_response)

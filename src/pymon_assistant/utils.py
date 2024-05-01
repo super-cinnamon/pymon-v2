@@ -2,6 +2,7 @@
 helper functions for the pymon assistant
 will contain all the files for processing and checking data validity
 """
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 
 def check_query_validity(query):
