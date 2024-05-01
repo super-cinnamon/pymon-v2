@@ -10,7 +10,7 @@ from datetime import datetime
 
 import google.generativeai as genai
 
-from src.pymon_assistant.utils import check_query_validity, check_history_validity
+from src.pymon_assistant.utils import check_query_validity, check_history_validity, WEEKDAYS
 from src.pymon_assistant.tasks.web_search import get_context as web_context
 from src.pymon_assistant.tasks.vdb_search import get_context as vdb_context
 
@@ -61,8 +61,10 @@ def prompt_input(query, search_base="both"):
     """
     pymon_input = ""
 
+    full_date = f"{WEEKDAYS[datetime.today().weekday()]}, {datetime.now()}"
+
     # add the system prompt
-    pymon_input += PROMPT.format(datetime.now())
+    pymon_input += PROMPT.format(full_date)
 
     # add the context/search results
     if search_base == "web":
