@@ -140,9 +140,13 @@ def chat(instruction, history=[], search_base="both"):
     try:
         pymon_input = prompt_input(instruction, search_base=search_base)
     except Exception as e:
-        print("switching to web search because of the following exception:")
+        print("switching to a different search because of the following exception:")
         print(e)
-        pymon_input = prompt_input(instruction, search_base="web")
+        if search_base == "web" or search_base == "both":
+            secondary_search_base = "vdb"
+        else:
+            secondary_search_base = "web"
+        pymon_input = prompt_input(instruction, search_base=secondary_search_base)
 
     # init conversation
     if check_history_validity(history) and check_query_validity(instruction):
